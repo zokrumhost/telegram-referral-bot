@@ -8,6 +8,9 @@ Version: 2.4 (Silent Mode)
 import logging
 import json
 import os
+# Environment Variables को लोड करने के लिए यह लाइन ज़रूरी है
+from dotenv import load_dotenv 
+
 import time
 import shutil
 import glob
@@ -19,19 +22,21 @@ from telegram.ext import (
 )
 from telegram.error import BadRequest, TelegramError
 
+load_dotenv() 
+
 # ==================== CONFIGURATION ====================
 CONFIG = {
-    # 🔑 REQUIRED
-    'BOT_TOKEN': "8530172539:AAFNULfiT7tj2CL2ENYqt8szKehZMzz0VEs",
-    'CHANNEL_ID': "-1003344013218",
-    'ADMIN_USER_ID': "8599035302",
+    # 🔑 REQUIRED - Load from Environment Variables (Secrets)
+    'BOT_TOKEN': os.getenv('BOT_TOKEN'),
+    'CHANNEL_ID': os.getenv('CHANNEL_ID'),
+    'ADMIN_USER_ID': os.getenv('ADMIN_USER_ID'),
     
-    # 🔗 OPTIONAL
-    'MOVIE_CHANNEL_LINK': "https://t.me/+stC4uP28SixmMThl",
-    'BOT_USERNAME': "DeshiMediaHub_bot",
-    'REQUIRED_REFERRALS': 3,
-    'REFERRAL_POINTS': 1,
-    'USER_RETENTION_DAYS': 7
+    # 🔗 OPTIONAL - Load from Environment Variables or use default if missing
+    'MOVIE_CHANNEL_LINK': os.getenv('MOVIE_CHANNEL_LINK', "https://t.me/+stC4uP28SixmMThl"),
+    'BOT_USERNAME': os.getenv('BOT_USERNAME', "DeshiMediaHub_bot"),
+    'REQUIRED_REFERRALS': int(os.getenv('REQUIRED_REFERRALS', 3)),
+    'REFERRAL_POINTS': int(os.getenv('REFERRAL_POINTS', 1)),
+    'USER_RETENTION_DAYS': int(os.getenv('USER_RETENTION_DAYS', 7))
 }
 # ==================== CONFIG END ====================
 
